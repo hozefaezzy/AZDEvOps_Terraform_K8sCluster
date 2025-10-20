@@ -4,22 +4,23 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:   # allows manual trigger
+  pull_request:
+  # workflow_dispatch:   # allows manual trigger
 
 permissions:
   id-token: write        # Required for OIDC authentication
   contents: read
 
-env:
-  TF_LOG: INFO
-  TF_IN_AUTOMATION: true
-  ARM_USE_OIDC: true
+# env:
+  # TF_LOG: INFO
+  # TF_IN_AUTOMATION: true
+  # ARM_USE_OIDC: true
 
 jobs:
   terraform:
     name: Deploy AKS via Terraform
     runs-on: ubuntu-latest
-    environment: Dev
+    # environment: Dev
 
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -44,12 +45,13 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.9.7
+          terraform_version: 1.9.5
 
       # - name: Terraform Format Check
       #  run: terraform fmt -check
 
       - name: Terraform Init
+        working-directory: ./
         run: |
           terraform init \
             -backend-config="resource_group_name=terraform-state-rg" \
@@ -61,11 +63,13 @@ jobs:
             -lock-timeout=180s
 
       - name: Terraform Validate
+        working-directory: ./
         run: terraform validate
 
       - name: Terraform Plan
-        id: plan
-        run: terraform plan -out=tfplan -input=false
+        # id: plan
+        working-directory: ./
+        run: terraform plan -out=tfplan
 
       # Optional: Require manual approval before applying
       # - name: Wait for manual approval
@@ -79,6 +83,7 @@ jobs:
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
+        working-directory: ./
         run: terraform apply -auto-approve -input=false tfplan
 
       - name: Terraform Output
