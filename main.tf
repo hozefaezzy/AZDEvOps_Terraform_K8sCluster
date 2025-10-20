@@ -31,6 +31,10 @@ resource "azurerm_kubernetes_cluster" "terraform-k8s" {
   linux_profile {
     admin_username = "ubuntu"
 
+  identity {
+    type = "SystemAssigned"
+  }
+
     ssh_key {
       key_data = var.ssh_public_key
     }
@@ -41,8 +45,6 @@ resource "azurerm_kubernetes_cluster" "terraform-k8s" {
     node_count = var.node_count
     vm_size    = "Standard_DS1_v2"
   }
-
-  service_principal {}
 
   tags = {
     Environment = var.environment
