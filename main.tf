@@ -15,10 +15,6 @@ terraform {
 
 provider "azurerm" {
   features {}
-  client_id       = var.client_id     # ENVIRONMENT VARIABLE
-  client_secret   = var.client_secret # ENVIRONMENT VARIABLE
-  subscription_id = "92ce78f8-6db3-4a60-9fa7-3e9d8179e33e"
-  tenant_id       = "1c3cb17d-0059-4ba2-bd97-36f565114bbd"
 }
 
 resource "azurerm_resource_group" "resource_group" {
