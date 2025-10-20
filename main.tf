@@ -42,6 +42,8 @@ resource "azurerm_kubernetes_cluster" "terraform-k8s" {
     vm_size    = "Standard_DS1_v2"
   }
 
+  service_principal {}
+
   tags = {
     Environment = var.environment
   }
