@@ -26,9 +26,9 @@ jobs:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      # ARM_USE_OIDC: true
+      ARM_USE_OIDC: true
       TF_VAR_location: "eastus"
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_VALUE }}
+      # ARM_CLIENT_SECRET: ${{ secrets.AZURE_VALUE }}
 
       # Terraform backend config (Azure Storage)
       TF_STATE_RESOURCE_GROUP: terraform-state-rg
