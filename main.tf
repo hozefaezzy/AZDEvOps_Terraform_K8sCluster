@@ -28,12 +28,12 @@ resource "azurerm_kubernetes_cluster" "terraform-k8s" {
   resource_group_name = azurerm_resource_group.resource_group.name
   dns_prefix          = var.dns_prefix
 
-  linux_profile {
-    admin_username = "ubuntu"
-
   identity {
     type = "SystemAssigned"
   }
+
+  linux_profile {
+    admin_username = "ubuntu"
 
     ssh_key {
       key_data = var.ssh_public_key
